@@ -1,0 +1,32 @@
+body {
+    position: relative;
+}
+
+div#preload {
+    display: none;
+}
+
+.skull {
+    -webkit-animation: opacityAnimation 5s; /* Chrome, Safari, Opera */
+    animation: opacityAnimation 5s;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes opacityAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Standard syntax */
+@keyframes opacityAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
