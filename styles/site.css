@@ -3,7 +3,7 @@ body {
 }
 
 div#preload {
-    /*visibility: hidden;*/
+    visibility: hidden;
 }
 
 .skull {

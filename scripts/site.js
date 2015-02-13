@@ -1,7 +1,7 @@
 (function createSkulls(white) {
     var usedSkulls = document.querySelectorAll('.skull');
 
-    [].forEach.call(usedSkulls, function(skull) {
+    [].forEach.call(usedSkulls, function (skull) {
         skull.parentNode.removeChild(skull);
     });
 
@@ -9,7 +9,7 @@
     var left = (window.innerWidth / 2) - (bigSkull.width / 2);
     var tops = (window.innerHeight / 2) - (bigSkull.height / 2);
     var skullSrc, smallSkullSrc;
-    if(white) {
+    if (white) {
         document.body.style.backgroundColor = "white";
         skullSrc = "images/whiteSkull.png";
         smallSkullSrc = "images/whiteSkullSmall.png";
@@ -32,22 +32,24 @@
                 if (i <= 360) {
                     var smallSkull = document.createElement("img");
                     smallSkull.setAttribute("src", smallSkullSrc);
-                    var smallSkullHeight = smallSkull.height;
-                    var smallSkullWidth = smallSkull.width;
-                    var x = Math.floor(((left - (bigSkull.width / 2) + (smallSkullWidth / 2)) + radius * Math.cos(i * Math.PI / 180)));
-                    var y = Math.floor(((tops - (bigSkull.height / 2) + (smallSkullHeight / 2)) + radius * Math.sin(i * Math.PI / 180)));
-                    smallSkull.className = "skull";
-                    smallSkull.style.position = "absolute";
-                    smallSkull.style.left = x + "px";
-                    smallSkull.style.top = y + "px";
-                    var animationEndHandler = function () {
-                        i += steps;
-                        createCurrentSkull(i);
-                    };
+                    smallSkull.addEventListener("load", function () {
+                        var smallSkullHeight = smallSkull.height;
+                        var smallSkullWidth = smallSkull.width;
+                        var x = Math.floor(((left - (bigSkull.width / 2) + (smallSkullWidth / 2)) + radius * Math.cos(i * Math.PI / 180)));
+                        var y = Math.floor(((tops - (bigSkull.height / 2) + (smallSkullHeight / 2)) + radius * Math.sin(i * Math.PI / 180)));
+                        smallSkull.className = "skull";
+                        smallSkull.style.position = "absolute";
+                        smallSkull.style.left = x + "px";
+                        smallSkull.style.top = y + "px";
+                        var animationEndHandler = function () {
+                            i += steps;
+                            createCurrentSkull(i);
+                        };
 
-                    smallSkull.addEventListener("animationend", animationEndHandler);
-                    smallSkull.addEventListener("webkitAnimationEnd", animationEndHandler);
-                    smallSkull.addEventListener("oAnimationEnd", animationEndHandler);
+                        smallSkull.addEventListener("animationend", animationEndHandler);
+                        smallSkull.addEventListener("webkitAnimationEnd", animationEndHandler);
+                        smallSkull.addEventListener("oAnimationEnd", animationEndHandler);
+                    });
                     document.body.appendChild(smallSkull);
                 } else {
                     resolve();
