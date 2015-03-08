@@ -1,23 +1,28 @@
 // preload images
 (new Promise(function (resolve) {
-    (function handleImage(inputArray) {
+    (function handleImage(inputArray, result) {
         if (inputArray.length === 0) {
-            resolve();
+            resolve(result);
         } else {
             var img = new Image();
+            var currentImage = inputArray.shift();
             img.onload = function () {
+				result[currentImage] = {
+					"width": this.width,
+					"height": this.height
+				};
                 setTimeout(function () {
-                    handleImage(inputArray);
+                    handleImage(inputArray, result);
                 }, 0);
             }
-            img.src = inputArray.shift();
+            img.src = currentImage;
         }
     }(["images/whiteSkull.png",
         "images/whiteSkullSmall.png",
         "images/blackSkull.png",
         "images/blackSkullSmall.png"
-    ]));
-})).then(function () {
+    ], {}));
+})).then(function (result) {
         (function createSkulls(white) {
             var usedSkulls = document.querySelectorAll('.skull');
 
@@ -42,7 +47,8 @@
             }
 
             bigSkull.setAttribute("src", skullSrc);
-
+            var bigSkullWidth = result[skullSrc].width;
+            var bigSkullHeight =  result[skullSrc].height;
             var steps = 360 / 12;
             var radius = 230;
 
@@ -52,10 +58,10 @@
                         if (i <= 360) {
                             var smallSkull = document.createElement("img");
                             smallSkull.setAttribute("src", smallSkullSrc);
-                            var smallSkullHeight = smallSkull.height;
-                            var smallSkullWidth = smallSkull.width;
-                            var x = Math.floor(((left - (bigSkull.width / 2) + (smallSkullWidth / 2)) + radius * Math.cos(i * Math.PI / 180)));
-                            var y = Math.floor(((tops - (bigSkull.height / 2) + (smallSkullHeight / 2)) + radius * Math.sin(i * Math.PI / 180)));
+                            var smallSkullHeight = result[smallSkullSrc].height;
+                            var smallSkullWidth = result[smallSkullSrc].width;
+                            var x = Math.floor(((left - (bigSkullWidth / 2) + (smallSkullWidth / 2)) + radius * Math.cos(i * Math.PI / 180)));
+                            var y = Math.floor(((tops - (bigSkullHeight / 2) + (smallSkullHeight / 2)) + radius * Math.sin(i * Math.PI / 180)));
                             smallSkull.className = "skull";
                             smallSkull.style.position = "absolute";
                             smallSkull.style.left = x + "px";
